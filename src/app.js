@@ -9,7 +9,7 @@ const db = require('./config/db')
 
 // routes
 
-const { userRoutes, adminRoutes } = require('./routes/index')
+const { userRoutes, adminRoutes } = require('./routes/router')
 
 // models
 const { 
@@ -37,8 +37,12 @@ app.engine('hbs',
     }
   )
 )
+
 app.set('view engine', 'hbs')
 app.set('views', 'views')
+
+
+app.use(adminRoutes)
 
 const port = 3000
 

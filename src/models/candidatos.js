@@ -14,12 +14,6 @@ const candidatos = db.define('candidatos', {
   apellido: {
     type: DataTypes.STRING
   },
-  partidoPertenece: {
-    type: DataTypes.INTEGER
-  },
-  puestoAspirando: {
-    type: DataTypes.INTEGER
-  },
   fotoPerfil: {
     type: DataTypes.STRING
   },
