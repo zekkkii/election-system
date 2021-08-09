@@ -3,6 +3,8 @@ const { Router } = require('express')
 const router = Router()
 
 router.get('/puesto_electivo', (req, res)=>{})
+router.get('/puesto_electivo/view_all', (req, res)=>{})
+
 router.get('/puesto_electivo/create', (req, res)=>{})
 router.post('/puesto_electivo/create', (req, res)=>{})
 

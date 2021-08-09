@@ -3,6 +3,8 @@ const { Router } = require('express')
 const router = Router()
 
 router.get('/partidos', (req, res)=>{})
+router.get('/partidos/view_all', (req, res)=>{})
+
 router.get('/partidos/create', (req, res)=>{})
 router.post('/partidos/create', (req, res)=>{})
 
