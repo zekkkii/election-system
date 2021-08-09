@@ -12,7 +12,14 @@ const db = require('./config/db')
 const { userRoutes, adminRoutes } = require('./routes/index')
 
 // models
-
+const { 
+  candidatos,
+  puestoElectivo,
+  partidos,
+  elecciones,
+  ciudadanos,
+  usuarios,
+} = require('./models/modelsIndex')
 
 
 const app = express()
@@ -38,7 +45,7 @@ const port = 3000
 app.listen(port, async () => {
   console.log(`App working correctly on port ${port}`)
   try {
-    await db.authenticate();
+    await db.sync();
     console.log('Connection has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
