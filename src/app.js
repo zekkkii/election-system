@@ -42,7 +42,7 @@ app.set('view engine', 'hbs')
 app.set('views', 'views')
 
 
-app.use(adminRoutes)
+app.use('/admin', adminRoutes)
 
 const port = 3000
 

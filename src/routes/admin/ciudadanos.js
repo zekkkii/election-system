@@ -1,18 +1,21 @@
 const { Router } = require('express')
 
+
+const { menu, viewAll, createView, createPost, updateView, updateViewForm, updatePost, deleteView, deletePost } = require('../../controllers/admin/ciudadanos')
+
 const router = Router()
 
-router.get('/ciudadanos', (req, res)=>{})
-router.get('/ciudadanos/view_all', (req, res)=>{})
+router.get('/ciudadanos', menu)
+router.get('/ciudadanos/view_all', viewAll)
 
-router.get('/ciudadanos/create', (req, res)=>{})
-router.post('/ciudadanos/create', (req, res)=>{})
+router.get('/ciudadanos/create', createView)
+router.post('/ciudadanos/create', createPost)
 
-router.get('/ciudadanos/update', (req, res)=>{})
-router.get('/ciudadanos/update/:id', (req, res)=>{})
-router.post('/ciudadanos/update/:id', (req, res)=>{})
+router.get('/ciudadanos/update', updateView)
+router.get('/ciudadanos/update/:id', updateViewForm)
+router.post('/ciudadanos/update/:id',updatePost)
 
-router.get('/ciudadanos/delete', (req, res)=>{})
-router.post('/ciudadanos/delete:id', (req, res)=>{})
+router.get('/ciudadanos/delete', deleteView)
+router.post('/ciudadanos/delete:id', deletePost)
 
 module.exports = router

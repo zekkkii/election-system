@@ -1,18 +1,21 @@
 const { Router } = require('express')
 
+
+const { menu, viewAll, createView, createPost, updateView, updateViewForm, updatePost, deleteView, deletePost } = require('../../controllers/admin/elecciones')
+
 const router = Router()
 
-router.get('/elecciones', (req, res)=>{})
-router.get('/elecciones/view_all', (req, res)=>{})
+router.get('/elecciones', menu)
+router.get('/elecciones/view_all', viewAll)
 
-router.get('/elecciones/create', (req, res)=>{})
-router.post('/elecciones/create', (req, res)=>{})
+router.get('/elecciones/create', createView)
+router.post('/elecciones/create', createPost)
 
-router.get('/elecciones/update', (req, res)=>{})
-router.get('/elecciones/update/:id', (req, res)=>{})
-router.post('/elecciones/update/:id', (req, res)=>{})
+router.get('/elecciones/update', updateView)
+router.get('/elecciones/update/:id', updateViewForm)
+router.post('/elecciones/update/:id',updatePost)
 
-router.get('/elecciones/delete', (req, res)=>{})
-router.post('/elecciones/delete:id', (req, res)=>{})
+router.get('/elecciones/delete', deleteView)
+router.post('/elecciones/delete:id', deletePost)
 
 module.exports = router
