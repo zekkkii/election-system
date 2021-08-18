@@ -1,4 +1,5 @@
-const { Router } = require('express')
+const { Router, request } = require('express')
+
 
 
 const { menu, viewAll, createView, createPost, updateView, updateViewForm, updatePost, deleteView, deletePost } = require('../../controllers/admin/ciudadanos')
