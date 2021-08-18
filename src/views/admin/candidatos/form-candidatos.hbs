@@ -21,6 +21,17 @@
                             <input type="text" class="form-control" id="name" name="Name">
                         </div>
 
+
+                        <div class="mb-3">
+                            <label for="apellidos" class="form-label">Apellidos: </label>
+                            <input type="text" class="form-control" id="apellidos" name="Apellidos">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="imagen-candidato" class="form-label">Seleccione una imagen: </label>
+                            <input class="form-control" type="file" id="imagen-candidato" name="Imagen-candidato">
+                        </div>
+
                         <select class="form-select mb-4" aria-label="Default select example" name="SelectCargo">
                             <option value="" selected> Seleccione el Cargo </option>
                             <option value=""></option>
@@ -42,11 +53,6 @@
                          <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="StatusActive">
                             <label class="form-check-label" for="StatusActive"> Activo </label>
-                        </div>
-
-                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="StatusInactive">
-                            <label class="form-check-label" for="StatusInactive"> Inactivo </label>
                         </div>
 
                         <button type="btn" class="btn btn-success float-right w-25 float-end"> Añadir </button>
