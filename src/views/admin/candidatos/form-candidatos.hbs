@@ -6,12 +6,12 @@
 
         <div class="col-md-6">
             
-            <form method="POST" action="">
+            <form method="POST" action="{{#if editMode}}""{{else}}""{{/if}}">
 
                 <div class="card mt-5">
 
                     <div class="card-header bg-success"> 
-                        <h5 class="text-white">Inserte la info del Candidato:</h5>    
+                        <h5 class="text-white"> {{#if editMode}}Edite{{else}}Introduzca{{/if}} la info del Candidato: </h5>   
                     </div>
 
                     <div class="card-body">
@@ -22,7 +22,7 @@
                         </div>
 
                         <select class="form-select mb-4" aria-label="Default select example" name="SelectCargo">
-                            <option value="" selected>Select Author</option>
+                            <option value="" selected> Seleccione el Cargo </option>
                             <option value=""></option>
                             <option value=""></option>
                             <option value=""></option>
@@ -31,7 +31,7 @@
                         </select>
 
                         <select class="form-select mb-4" aria-label="Default select example" name="SelectPartido">
-                            <option value="" selected>Select Editorial</option>
+                            <option value="" selected> Seleccione el partido </option>
                             <option value=""></option>
                             <option value=""></option>
                             <option value=""></option>
