@@ -1,4 +1,4 @@
 const adminRoutes = require('./admin/adminIndex')
-// const userRoutes = require('./user/userIndex')
+const userRoutes = require('./user/user')
 
-module.exports = { adminRoutes }
+module.exports = { adminRoutes, userRoutes }

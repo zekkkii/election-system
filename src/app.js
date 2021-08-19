@@ -27,21 +27,12 @@ const app = express()
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
 
-app.engine('hbs', 
-  hb(
-    {
-      layoutsDir: 'views/layouts',
-      defaultLayout:"main-layout", 
-      extname:'hbs',
-      helpers: ''
-    }
-  )
-)
-
+app.engine('hbs', hb({layoutsDir:'src/views/layouts/',defaultLayout: 'main-layout',extname:'hbs'}))
 app.set('view engine', 'hbs')
-app.set('views', 'views')
+app.set('views', 'src/views')
 
 
+app.use('/', userRoutes)
 app.use('/admin', adminRoutes)
 
 const port = 3000

@@ -18,27 +18,31 @@ const getAllData = async () => {
   return request
 }
 
-const menu =(req, res) => {
-
-  // enviar menu CRUD
-  
-}
-
 const viewAll = async (req, res) => {
   let data = await getAllData()
 
   data = data.map( result => result)
   console.log(data)
   //mandar data al front
+  res.render('admin/candidatos/form-candidatos')
   
 }
 
 const createView =(req, res) => {
   // enviar create view 
+  res.render('admin/candidatos/form-candidatos',{ editMode: false })
 }
 
-const createPost =(req, res) => {
-  
+const createPost = async (req, res) => {
+  const { Name, SelectCargo, SelectPartido } = req.body
+  await candidatosModel.create({
+    nombre: Name,
+    apellido: null,
+    fotoPerfil: null,
+    estado: null,
+    partidoId: SelectPartido,
+    puestoElectivoId: SelectCargo
+  })
 }
 
 const updateView = async () => {
@@ -53,25 +57,40 @@ const updateViewForm =(req, res) => {
    // enviar form view 
 }
 
-const updatePost =(req, res) => {
-  
+const updatePost = async (req, res) => {
+  const id  = req.params.id
+
+  await candidatosModel.create({
+    nombre: Name,
+    apellido: null,
+    fotoPerfil: null,
+    estado: null,
+    partidoId: SelectPartido,
+    puestoElectivoId: SelectCargo
+  },
+  {
+    where: {
+      id: id
+    }
+  }
+  )
 }
 
-const deleteView = async() => {
-  let data = await getAllData()
+// const deleteView = async() => {
+//   let data = await getAllData()
 
-  data = data.map( result => result)
-  console.log(data)
-  //mandar data al front
-}
+//   data = data.map( result => result)
+//   console.log(data)
+//   //mandar data al front
+// }
 
 const deletePost =(req, res) => {
   // const id = req.params.id
 
-  // const request = await candidatosModel.findAll({where: {id: id}})
+  // const request = await candidatosModel.findOne({where: {id: id}})
 
 
-  // candidatosModel.update({estado: },{
+  // candidatosModel.update({estado: !request.estado },{
   //   where:{
   //     id: id
   //   }
@@ -80,13 +99,12 @@ const deletePost =(req, res) => {
 }
 
 module.exports =  { 
-  menu, 
   viewAll,
   createView,
   createPost,
   updateView,
   updateViewForm,
   updatePost,
-  deleteView,
+  // deleteView,
   deletePost 
 }
