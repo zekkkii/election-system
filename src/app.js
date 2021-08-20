@@ -11,7 +11,7 @@ const db = require('./config/db')
 
 // routes
 
-const { userRoutes, adminRoutes } = require('./routes/router')
+const { userRoutes, adminRoutes, auth:athorization } = require('./routes/router')
 
 // models
 const { 
@@ -60,6 +60,7 @@ app.set('views', 'src/views')
 // this middleware is for setting in locals all the flash messages
 app.use(flashMiddleware)
 
+app.use('/login', athorization)
 app.use('/', userRoutes)
 app.use('/admin', auth, adminRoutes)
 

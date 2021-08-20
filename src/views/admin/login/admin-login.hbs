@@ -1,6 +1,4 @@
-<div class="container">
-
-    <div class="col-md-4"></div>
+<div class="container d-flex justify-content-center">
 
     <div class="col-md-4">
 
@@ -12,26 +10,22 @@
             </div>
             <div class="card-body">
 
-                <div class="dropdown-menu">
-                    <form class="px-4 py-3">
-                        <div class="mb-3">
-                        <label for="Admin" class="form-label">Admin:</label>
-                        <input type="text" class="form-control" id="Admin" placeholder="usuarioadmin">
-                        </div>
-                        <div class="mb-3">
-                        <label for="Password" class="form-label">Password:</label>
-                        <input type="password" class="form-control" id="Password" placeholder="password">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Sign in</button>
-                    </form>
-                </div>
+                <form class="px-4 py-3" action="/" method="POST">
+                    <div class="mb-3">
+                    <label for="Admin" class="form-label">Admin:</label>
+                    <input type="text" class="form-control" id="Admin" placeholder="usuarioadmin" name="user">
+                    </div>
+                    <div class="mb-3">
+                    <label for="Password" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="Password" placeholder="password" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                </form>
 
             </div>
 
         </div>
 
     </div>
-
-    <div class="col-md-4"></div>
 
 </div>
