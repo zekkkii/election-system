@@ -3,24 +3,46 @@
     <div class="col-lg-6 col-md-8 mx-auto">
       <h1 class="fw-light">Candidatos</h1>
       <p>
-        <a href="#" class="btn btn-outline-primary my-2">Añadir nuevo Candidato</a>
+        <a href="/admin/candidatos/create" class="btn btn-outline-primary my-2">Añadir nuevo Candidato</a>
       </p>
     </div>
   </div>
 </section>
-
-
-<div class="album py-5 bg-light">
-    <div class="container">
-        <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="Nombre-del-Candidato">
-        <div class="card-body">
-            <h5 class="card-title">Nombre Candidato</h5>
-            <p class="card-text">Partido: kkswate</p>
-            <p class="card-text">Cargo: papim mayor</p>
-            <a href="#" class="btn btn-primary"> Editar </a>
-            <a href="#" class="btn btn-primary"> Eliminar </a>
-        </div>
+{{#if data}}
+ <div class="d-flex flex-wrap">
+    {{#each data}}
+    <div class="album py-5 bg-light">
+        <div class="container">        
+            <div class="card" style="width: 18rem;">
+              {{#if estado}}
+                  <div class="bg-success text-white text-center p-1">
+                    <span>Disponible/visible</span>
+                  </div>
+                  {{else}}
+                  <div class="bg-danger text-white text-center p-1">
+                    <span>Eliminado/Invisible</span>
+                  </div>
+                {{/if}}
+              <img class="controlImg" src="http://localhost:3000/uploads/{{fotoPerfil}}" class="card-img-top" alt="Nombre-del-Candidato">
+              <div class="card-body">
+                  <h5 class="card-title">{{nombre}} {{apellido}}</h5>
+                  <p class="card-text">Partido: kkswate</p>
+                  <p class="card-text">Cargo: papim mayor</p>
+                  <div class="d-flex">
+                    <a href="/admin/candidatos/update/{{id}}" class="btn btn-primary mx-2"> Editar </a>
+                    {{#if estado}}
+                      <form action="/admin/candidatos/delete/{{id}}" method="post">
+                        <button type="submit" id="delete" class="btn btn-danger">Eliminar</button>
+                      </form> 
+                      {{else}}       
+                    {{/if}}      
+                  </div>
+              </div>
+            </div>
         </div>
     </div>
-</div>
+  {{/each}}
+ </div>
+  {{else}}
+  <h2>Al parecer no hay candidatos inscritos</h2>
+{{/if }}

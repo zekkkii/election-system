@@ -2,7 +2,7 @@ const indexUserView = ()=> {
 
 }
 
-const indexUserController = ()=> {
+const indexUserController = (req, res)=> {
 
 }
 

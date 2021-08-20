@@ -6,7 +6,7 @@
 
         <div class="col-md-6">
             
-            <form method="POST" action="{{#if editMode}}""{{else}}""{{/if}}">
+            <form method="POST" enctype="multipart/form-data" action="{{#if editMode}} {{else}}/admin/candidatos/create{{/if}}">
 
                 <div class="card mt-5">
 
@@ -18,44 +18,76 @@
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre: </label>
-                            <input type="text" class="form-control" id="name" name="Name">
+                            <input type="text" class="form-control" {{#if editMode}} value="{{data.nombre}}" {{/if}} id="name" name="Name">
                         </div>
 
 
                         <div class="mb-3">
                             <label for="apellidos" class="form-label">Apellidos: </label>
-                            <input type="text" class="form-control" id="apellidos" name="Apellidos">
+                            <input type="text" class="form-control" {{#if editMode}} value="{{data.apellido}}" {{/if}} id="apellidos" name="Apellidos">
                         </div>
 
                         <div class="mb-3">
                             <label for="imagen-candidato" class="form-label">Seleccione una imagen: </label>
-                            <input class="form-control" type="file" id="imagen-candidato" name="Imagen-candidato">
+                            {{#if editMode}} <small>Si quiere mantener la foto actual, solo omita esta opcion</small> {{/if}}
+                            <input class="form-control" type="file" id="imagen-candidato" name="Imagen_candidato">
                         </div>
 
-                        <select class="form-select mb-4" aria-label="Default select example" name="SelectCargo">
-                            <option value="" selected> Seleccione el Cargo </option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                        </select>
+                            {{#if editMode}} 
+                                <select class="form-select mb-4" aria-label="Default select example" name="SelectCargo"></select>
+                                    {{#each puestosElectivos as |puesto|}}
+                                        {{#if (compare puesto.id ../data.puestoElectivoId)}}
+                                            <option value="{{puesto.id}}" > {{puesto.nombre}} selected </option>                                         
+                                        {{/if}}  
+                                    {{/each}}   
+                                </select>
+                                    
+                                {{else}}
+                                    {{#if puestos}}
+                                        <select class="form-select mb-4" aria-label="Default select example" name="SelectCargo"></select>
+                                        <option value="" selected> Seleccione el Cargo </option>
+                                            {{#each puestos}}
+                                                <option value="{{id}}" > {{nombre}} </option>
+                                            {{/each}}
+                                        </select>
+                                        {{else}}
+                                        <h5>No se encontro ningun cargo...</h5>
+                                    {{/if}}
+                            {{/if}}
 
-                        <select class="form-select mb-4" aria-label="Default select example" name="SelectPartido">
-                            <option value="" selected> Seleccione el partido </option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                        </select>
+                            {{#if editMode}} 
+                                <select class="form-select mb-4" aria-label="Default select example" name="SelectPartido"></select>
+                                    {{#each partidos as |partido|}}
+                                        {{#if (compare partido.id ../data.partidoId)}}
+                                            <option value="{{partido.id}}" > {{partido.nombre}} selected </option>                                         
+                                        {{/if}}  
+                                    {{/each}}   
+                                </select>
+                                    
+                                {{else}}
+                                    {{#if partidos}}
+                                        <select class="form-select mb-4" aria-label="Default select example" name="SelectPartido"></select>
+                                        <option value="" selected> Seleccione el Cargo </option>
+                                            {{#each partidos}}
+                                                <option value="{{id}}" > {{nombre}} </option>
+                                            {{/each}}
+                                        </select>
+                                        {{else}}
+                                        <h5>No se encontro ningun partido...</h5>
+
+                                    {{/if }}
+                            {{/if}}
 
                          <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="StatusActive">
-                            <label class="form-check-label" for="StatusActive" name="status-active"> Activo </label>
+                            <input type="checkbox" class="form-check-input" id="StatusActive"  name="statusActive" value="true" {{#if editMode}} {{#if data.estado}} checked {{/if}} {{else}}checked {{/if}}  >
+                            <label class="form-check-label" for="StatusActive"> Activo </label>
                         </div>
 
-                        <button type="btn" class="btn btn-success float-right w-25 float-end"> Añadir </button>
+                        {{#if puestos}}
+                            {{#if partidos}}
+                                <button type="btn" class="btn btn-success float-right w-25 float-end"> Añadir </button>                            
+                            {{/if}}
+                        {{/if}}
                     </div>
 
                 </div>
