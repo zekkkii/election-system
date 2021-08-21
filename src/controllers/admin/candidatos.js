@@ -18,7 +18,7 @@ const createView = async (req, res) => {
   partidos = partidos.map(result => result.dataValues)
 
   let puestos = await puestoElectivoModel.findAll()
-  puestos = partidos.map(result => result.dataValues)
+  puestos = puestos.map(result => result.dataValues)
 
   res.render('admin/candidatos/form-candidatos',{ puestos:puestos, partidos: partidos })
 }
@@ -96,13 +96,37 @@ const updateViewForm = async (req, res) => {
 }
 
 const updatePost = async (req, res) => {
-  const id  = req.params.id
+  try {
+    const id  = req.params.id
 
-  await candidatosModel.create({
+    let { Name, Apellidos, SelectCargo, SelectPartido, statusActive } = req.body
+    
+    if(!Name || !Apellidos || !SelectCargo || !SelectPartido) {
+      req.flash('error', 'Debes llenar todos los campos')
+      return res.redirect('/admin/candidatos/create')
+    }
+ 
+  if(!StatusActive) {
+    StatusActive = false
+  } else {
+    StatusActive = true
+  }
+
+
+  let data = await candidatosModel.findOne({
+    where:{
+      id: id
+    },
+  })
+  
+  data = data.dataValues
+  if(req.file) data.logoPartido = req.file.filename
+  
+  await candidatosModel.update({
     nombre: Name,
-    apellido: null,
-    fotoPerfil: null,
-    estado: null,
+    apellido: Apellidos,
+    fotoPerfil: data.logoPartido,
+    estado: statusActive,
     partidoId: SelectPartido,
     puestoElectivoId: SelectCargo
   },
@@ -112,6 +136,12 @@ const updatePost = async (req, res) => {
     }
   }
   )
+  res.redirect('/admin/candidatos/view_all')
+  } catch(err) {
+    console.log(err)
+    req.flash('error', 'Algo sucedio, contacte con el administrador...')
+    res.redirect(`/admin/candidatos/update/${id}`)
+  }
 }
 
 // const deleteView = async() => {

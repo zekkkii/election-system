@@ -1,21 +1,19 @@
 const { Router } = require('express')
 
-
-const { menu, viewAll, createView, createPost, updateView, updateViewForm, updatePost, deleteView, deletePost } = require('../../controllers/admin/puestoElectivo')
+const { viewAll, createView, createPost, updateView, updateViewForm, updatePost, deleteView, deletePost } = require('../../controllers/admin/puestoElectivo')
 
 const router = Router()
 
-router.get('/puesto_electivo', menu)
-router.get('/puesto_electivo/view_all', viewAll)
+router.get('/puestos_electivos/view_all', viewAll)
 
-router.get('/puesto_electivo/create', createView)
-router.post('/puesto_electivo/create', createPost)
+router.get('/puestos_electivos/create', createView)
+router.post('/puestos_electivos/create', createPost)
 
-router.get('/puesto_electivo/update', updateView)
-router.get('/puesto_electivo/update/:id', updateViewForm)
-router.post('/puesto_electivo/update/:id',updatePost)
+// router.get('/puestos_electivos/update/:id', updateView)
+router.get('/puestos_electivos/update/:id', updateViewForm)
+router.post('/puestos_electivos/update/:id',updatePost)
 
-router.get('/puesto_electivo/delete', deleteView)
-router.post('/puesto_electivo/delete:id', deletePost)
+// router.get('/puestos_electivos/delete', deleteView)
+router.post('/puestos_electivos/delete/:id', deletePost)
 
 module.exports = router

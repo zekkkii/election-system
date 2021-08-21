@@ -34,7 +34,7 @@
                         </div>
 
                             {{#if editMode}} 
-                                <select class="form-select mb-4" aria-label="Default select example" name="SelectCargo"></select>
+                                <select class="form-select mb-4" aria-label="Default select example" name="SelectCargo">
                                     {{#each puestosElectivos as |puesto|}}
                                         {{#if (compare puesto.id ../data.puestoElectivoId)}}
                                             <option value="{{puesto.id}}" > {{puesto.nombre}} selected </option>                                         
@@ -44,10 +44,10 @@
                                     
                                 {{else}}
                                     {{#if puestos}}
-                                        <select class="form-select mb-4" aria-label="Default select example" name="SelectCargo"></select>
+                                        <select class="form-select mb-4" aria-label="Default select example" name="SelectCargo">
                                         <option value="" selected> Seleccione el Cargo </option>
                                             {{#each puestos}}
-                                                <option value="{{id}}" > {{nombre}} </option>
+                                                <option value="{{puestos.id}}" > {{puestos.nombre}} </option>
                                             {{/each}}
                                         </select>
                                         {{else}}
@@ -56,7 +56,7 @@
                             {{/if}}
 
                             {{#if editMode}} 
-                                <select class="form-select mb-4" aria-label="Default select example" name="SelectPartido"></select>
+                                <select class="form-select mb-4" aria-label="Default select example" name="SelectPartido">
                                     {{#each partidos as |partido|}}
                                         {{#if (compare partido.id ../data.partidoId)}}
                                             <option value="{{partido.id}}" > {{partido.nombre}} selected </option>                                         
@@ -66,8 +66,8 @@
                                     
                                 {{else}}
                                     {{#if partidos}}
-                                        <select class="form-select mb-4" aria-label="Default select example" name="SelectPartido"></select>
-                                        <option value="" selected> Seleccione el Cargo </option>
+                                        <select class="form-select mb-4" aria-label="Default select example" name="SelectPartido">
+                                            <option value="" selected> Seleccione el partido </option>
                                             {{#each partidos}}
                                                 <option value="{{id}}" > {{nombre}} </option>
                                             {{/each}}
