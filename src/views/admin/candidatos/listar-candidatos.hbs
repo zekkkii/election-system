@@ -26,8 +26,8 @@
               <img class="controlImg" src="http://localhost:3000/uploads/{{fotoPerfil}}" class="card-img-top" alt="Nombre-del-Candidato">
               <div class="card-body">
                   <h5 class="card-title">{{nombre}} {{apellido}}</h5>
-                  <p class="card-text">Partido: kkswate</p>
-                  <p class="card-text">Cargo: papim mayor</p>
+                  <p class="card-text">{{../partido}}</p>
+                  <p class="card-text">{{../puesto}}</p>
                   <div class="d-flex">
                     <a href="/admin/candidatos/update/{{id}}" class="btn btn-primary mx-2"> Editar </a>
                     {{#if estado}}

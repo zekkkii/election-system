@@ -6,7 +6,7 @@
 
         <div class="col-md-4">
 
-            <form method="POST" action="{{#if editMode}}""{{else}}""{{/if}}" class="dropdown-menu p-4">
+            <form method="POST" action="{{#if editMode}}/admin/ciudadanos/update/{{data.id}} {{else}}/admin/ciudadanos/create{{/if}}" class="p-4">
 
                 <div class="card mt-5">
 
@@ -18,17 +18,25 @@
 
                         <div class="mb-3">
                             <label for="nombre-ciudadano" class="form-label">Nombre del Ciudadano:</label>
-                            <input type="text" class="form-control" id="nombre-ciudadano" name="Name">
+                            <input type="text" class="form-control" {{#if editMode}} value="{{data.nombre}}" {{/if}} id="nombre-ciudadano" name="Name">
                         </div>
 
                         <div class="mb-3">
+                            <label for="apellidos" class="form-label">Apellidos: </label>
+                            <input type="text" class="form-control" {{#if editMode}} value="{{data.apellido}}" {{/if}} id="apellidos" name="Apellidos">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email: </label>
+                            <input type="email" class="form-control" {{#if editMode}} value="{{data.email}}" {{/if}} id="email" name="email">
+                        </div>
+                        <div class="mb-3">
                             <label for="docdeidentidad" class="form-label">Documento de identidad:</label>
-                            <input type="text" class="form-control" id="docdeidentidad" name="DocIdentidad">
+                            <input type="text" class="form-control" id="docdeidentidad" {{#if editMode}} value="{{data.documentoIdentidad}}" {{/if}} name="DocIdentidad">
                         </div>
 
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="statusActive">
-                            <label class="form-check-label" for="statusActive" name="StatusActive"> Activo </label>
+                            <input type="checkbox" class="form-check-input" name="StatusActive" id="statusActive" {{#if editMode}} {{#if data.estado}} checked {{/if}} {{else}}checked {{/if}}>
+                            <label class="form-check-label" for="statusActive"> Activo </label>
                         </div>
 
                         <button type="submit" class="btn btn-success float end"> Guardar </button>

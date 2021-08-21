@@ -30,7 +30,7 @@ router.post('/candidatos/create', upload.single('Imagen_candidato'), createPost)
 
 // router.get('/candidatos/update/:id', updateView)
 router.get('/candidatos/update/:id', updateViewForm)
-router.post('/candidatos/update/:id',updatePost)
+router.post('/candidatos/update/:id', upload.single('Imagen_candidato'),updatePost)
 
 // router.get('/candidatos/delete', deleteView)
 router.post('/candidatos/delete/:id', deletePost)

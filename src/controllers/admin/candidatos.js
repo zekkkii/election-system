@@ -6,10 +6,20 @@ const puestoElectivoModel = require('../../models/puestoElectivo')
 
 
 const viewAll = async (req, res) => {
-  let data = await candidatosModel.findAll()
+  let data = await candidatosModel.findAll({
+    include: [
+      { model:partidosModel },
+      { model: puestoElectivoModel }
+    ]
+  })
 
   data = data.map( result => result.dataValues)
-  res.render('admin/candidatos/listar-candidatos', {data: data})
+  res.render('admin/candidatos/listar-candidatos', {
+    data: data,
+    partido: data[0].partido.dataValues.nombre,
+    puesto: data[0].puestoElectivo.dataValues.nombre,
+
+  })
   
 }
 
@@ -83,7 +93,7 @@ const updateViewForm = async (req, res) => {
   res.render('admin/candidatos/form-candidatos',{ 
     editMode: true,
     data: data,
-    puestosElectivos: puestosElectivos,
+    puestos: puestosElectivos,
     partidos: partidos
   })
 
@@ -106,10 +116,10 @@ const updatePost = async (req, res) => {
       return res.redirect('/admin/candidatos/create')
     }
  
-  if(!StatusActive) {
-    StatusActive = false
+  if(!statusActive) {
+    statusActive = false
   } else {
-    StatusActive = true
+    statusActive = true
   }
 
 
@@ -140,7 +150,7 @@ const updatePost = async (req, res) => {
   } catch(err) {
     console.log(err)
     req.flash('error', 'Algo sucedio, contacte con el administrador...')
-    res.redirect(`/admin/candidatos/update/${id}`)
+    res.redirect(`/admin/candidatos/view_all`)
   }
 }
 

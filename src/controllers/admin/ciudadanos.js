@@ -1,78 +1,160 @@
-const ciudadanos = require('../../models/ciudadanos')
+const ciudadanoModel = require('../../models/ciudadanos')
 
 
 
-const getAllData = async () => {
-  const request = await ciudadanos.findAll()
-  return request
-}
 
-const menu =(req, res) => {
-
-  // enviar menu CRUD
-  
-}
 
 const viewAll = async (req, res) => {
-  let data = await getAllData()
+  let data = await ciudadanoModel.findAll()
 
-  data = data.map( result => result)
+  data = data.map( result => result.dataValues)
   console.log(data)
-  //mandar data al front
-  
+  res.render('admin/ciudadanos/listar-ciudadanos', {data: data})
+
 }
 
-const createView =(req, res) => {
-  // enviar create view 
+const createView = async (req, res) => {
+  res.render('admin/ciudadanos/form-ciudadanos')
 }
 
-const createPost =(req, res) => {
-  
+const createPost = async (req, res) => {
+ try{
+
+  let { Name, Apellidos, email, DocIdentidad, StatusActive } = req.body
+
+  if(!Name || !Apellidos || !email || !DocIdentidad) {
+    req.flash('error', 'Debes llenar todos los campos')
+    return res.redirect('/admin/ciudadanos/create')
+  }
+
+  if(!StatusActive) {
+    StatusActive = false
+  } else {
+    StatusActive = true
+  }
+
+  await ciudadanoModel.create({
+    nombre: Name,
+    apellido: Apellidos,
+    email: email,
+    documentoIdentidad: DocIdentidad,
+    estado: StatusActive
+  })
+  res.redirect('/admin/ciudadanos/view_all')
+ }
+ catch(err){
+   console.log(err)
+   req.flash('error', 'Algo sucedio, contacte con el administrador...')
+   res.redirect('/admin/ciudadanos/create')
+ }
+
 }
 
-const updateView = async () => {
-  let data = await getAllData()
-
-  data = data.map( result => result)
-  console.log(data)
-  //mandar data al front
-}
-
-const updateViewForm =(req, res) => {
+const updateViewForm = async (req, res) => {
    // enviar form view 
-}
-
-const updatePost =(req, res) => {
+ try{
+  const id = req.params.id
+  let data = await ciudadanoModel.findOne({
+    where:{
+      id: id
+    },
+  })
+  data = data.dataValues
   
+  res.render('admin/ciudadanos/form-ciudadanos',{ 
+    editMode: true,
+    data: data
+  })
+
+ } catch(err) {
+  console.log(err)
+  req.flash('error', 'Algo sucedio, contacte con el administrador...')
+  res.redirect('/admin/ciudadanos/view_all')
+
+ }
 }
 
-const deleteView = async() => {
-  let data = await getAllData()
+const updatePost = async (req, res) => {
+  try {
+    const id  = req.params.id
 
-  data = data.map( result => result)
-  console.log(data)
-  //mandar data al front
+    let { Name, Apellidos, email, DocIdentidad, StatusActive } = req.body
+
+    if(!Name || !Apellidos || !email || !DocIdentidad) {
+      req.flash('error', 'Debes llenar todos los campos')
+      return res.redirect('/admin/ciudadanos/create')
+    }
+  
+    if(!StatusActive) {
+      StatusActive = false
+    } else {
+      StatusActive = true
+    }
+  
+  let data = await ciudadanoModel.findOne({
+    where:{
+      id: id
+    },
+  })
+
+  await ciudadanoModel.update({
+    nombre: Name,
+    apellido: Apellidos,
+    email: email,
+    documentoIdentidad: DocIdentidad,
+    estado: StatusActive
+  },
+  {
+    where: {
+      id: id
+    }
+  }
+  )
+  res.redirect('/admin/ciudadanos/view_all')
+  } catch(err) {
+    console.log(err)
+    req.flash('error', 'Algo sucedio, contacte con el administrador...')
+    res.redirect(`/admin/puestos_electivos/update/${id}`)
+  }
 }
 
-const deletePost =(req, res) => {
-  // const id = req.params.id
+// const deleteView = async() => {
+//   let data = await getAllpartidosData()
 
-  // ciudadanos.destroy({
-  //   where:{
-  //     id: id
-  //   }
-  // })
+//   data = data.map( result => result)
+//   console.log(data)
+//   //mandar data al front
+// }
+
+const deletePost = async (req, res) => {
+  const id = req.params.id
+
+ try{
+
+  await ciudadanoModel.update({estado: false },{
+    where:{
+      id: id
+    }
+  })
+
+  req.flash('exito', 'Accion completada con exito!')
+  res.redirect('/admin/ciudadanos/view_all')
+
+ } catch(err) {
+   console.log(err)
+   req.flash('error', 'Algo sucedio, contacte con el administrador...')
+   res.redirect('/admin/ciudadanos/view_all')
+ }
   
 }
 
 module.exports =  { 
-  menu, 
   viewAll,
   createView,
   createPost,
-  updateView,
+  // updateView,
   updateViewForm,
   updatePost,
-  deleteView,
+  // deleteView,
   deletePost 
 }
