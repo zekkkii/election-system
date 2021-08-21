@@ -27,7 +27,7 @@ const createPost = async (req, res) => {
  try{
 
   let { Name, Apellidos, SelectCargo, SelectPartido, statusActive } = req.body
-  let img = '/img-perfil.jpg'
+  let img = 'img-perfil.jpg'
 
 // terminar
   
@@ -37,7 +37,11 @@ const createPost = async (req, res) => {
   }
 
   if(req.file) img =  req.file.filename
-  if(!statusActive) statusActive = false
+  if(!statusActive) {
+    statusActive = false
+  }  else {
+    statusActive = true
+  }
 
   await candidatosModel.create({
     nombre: Name,

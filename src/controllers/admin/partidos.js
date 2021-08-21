@@ -1,4 +1,4 @@
-const candidatossModel = require('../../models/candidatos')
+const candidatossModel = require('../../models/partidos')
 const partidosModel = require('../../models/partidos')
 const puestoElectivoModel = require('../../models/puestoElectivo')
 
@@ -9,7 +9,8 @@ const viewAll = async (req, res) => {
   let data = await partidosModel.findAll()
 
   data = data.map( result => result.dataValues)
-  res.render('admin/partidos/listar-candidatos', {data: data})
+  console.log(data)
+  res.render('admin/partidos/listar-partidos', {data: data})
   
 }
 
@@ -20,42 +21,42 @@ const createView = async (req, res) => {
   let puestos = await puestoElectivoModel.findAll()
   puestos = partidos.map(result => result.dataValues)
 
-  res.render('admin/candidatos/form-candidatos',{ puestos:puestos, partidos: partidos })
+  res.render('admin/partidos/form-partidos')
 }
 
 const createPost = async (req, res) => {
  try{
 
-  let { Name, Apellidos, SelectCargo, SelectPartido, statusActive } = req.body
-  let img = '/img-perfil.jpg'
+  let { Name, descripcion, StatusActive } = req.body
+  let img = 'no-image-icon.png'
 
 // terminar
   
-  if(!Name || !Apellidos || !SelectCargo || !SelectPartido) {
+  if(!Name || !descripcion) {
     req.flash('error', 'Debes llenar todos los campos')
-    return res.redirect('/admin/candidatos/create')
+    return res.redirect('/admin/partidos/create')
   }
 
   if(req.file) img =  req.file.filename
-  if(!statusActive) statusActive = false
+  if(!StatusActive) {
+    StatusActive = false
+  } else {
+    StatusActive = true
+  }
 
   await partidosModel.create({
     nombre: Name,
-    apellido: Apellidos,
-    fotoPerfil: img,
-    estado: statusActive,
-    partidoId: SelectPartido,
-    puestoElectivoId: SelectCargo
+    descripcion: descripcion,
+    logoPartido: img,
+    estado: StatusActive
   })
-  res.redirect('/admin/candidatos/view_all')
+  res.redirect('/admin/partidos/view_all')
  }
  catch(err){
    console.log(err)
    req.flash('error', 'Algo sucedio, contacte con el administrador...')
-   res.redirect('/admin/candidatos/create')
+   res.redirect('/admin/partidos/create')
  }
-
- 
 
 }
 
@@ -70,37 +71,51 @@ const updateViewForm = async (req, res) => {
   })
   data = data.dataValues
 
-  let partidos = await partidosModel.findAll()
-  partidos = partidos.map( result => result.dataValues)
-
-  let puestosElectivos = await puestoElectivoModel.findAll()
-  puestosElectivos = puestosElectivos.map( result => result.dataValues)
-
-  res.render('admin/candidatos/form-candidatos',{ 
+  res.render('admin/partidos/form-partidos',{ 
     editMode: true,
-    data: data,
-    puestosElectivos: puestosElectivos,
-    partidos: partidos
+    data: data
   })
 
  } catch(err) {
   console.log(err)
   req.flash('error', 'Algo sucedio, contacte con el administrador...')
-  res.redirect('/admin/candidatos/view_all')
+  res.redirect('/admin/partidos/view_all')
 
  }
 }
 
 const updatePost = async (req, res) => {
-  const id  = req.params.id
+  try {
+    const id  = req.params.id
 
-  await partidosModel.create({
+  let { Name, descripcion, StatusActive } = req.body
+
+  if(!Name) {
+    req.flash('error', 'Debes llenar todos los campos')
+    return res.redirect(`/admin/partidos/update/${id}`)
+  }
+
+ 
+  if(!StatusActive) {
+    StatusActive = false
+  } else {
+    StatusActive = true
+  }
+
+
+  let data = await partidosModel.findOne({
+    where:{
+      id: id
+    },
+  })
+  
+  data = data.dataValues
+  if(req.file) data.logoPartido = req.file.filename
+  await partidosModel.update({
     nombre: Name,
-    apellido: null,
-    fotoPerfil: null,
-    estado: null,
-    partidoId: SelectPartido,
-    puestoElectivoId: SelectCargo
+    descripcion: descripcion,
+    logoPartido:  data.logoPartido,
+    estado: StatusActive
   },
   {
     where: {
@@ -108,10 +123,16 @@ const updatePost = async (req, res) => {
     }
   }
   )
+  res.redirect('/admin/partidos/view_all')
+  } catch(err) {
+    console.log(err)
+    req.flash('error', 'Algo sucedio, contacte con el administrador...')
+    res.redirect(`/admin/partidos/update/${id}`)
+  }
 }
 
 // const deleteView = async() => {
-//   let data = await getAllCandidatosData()
+//   let data = await getAllpartidosData()
 
 //   data = data.map( result => result)
 //   console.log(data)
@@ -130,12 +151,12 @@ const deletePost = async (req, res) => {
   })
 
   req.flash('exito', 'Accion completada con exito!')
-  res.redirect('/admin/candidatos/view_all')
+  res.redirect('/admin/partidos/view_all')
 
  } catch(err) {
    console.log(err)
    req.flash('error', 'Algo sucedio, contacte con el administrador...')
-   res.redirect('/admin/candidatos/view_all')
+   res.redirect('/admin/partidos/view_all')
  }
   
 }
