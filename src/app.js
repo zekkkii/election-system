@@ -25,7 +25,7 @@ const {
 
 // middlewares
 
-const auth = require('./middlewares/auth')
+const { auth, verifyAuthIslogged } = require('./middlewares/auth')
 const flashMiddleware = require('./middlewares/flash')
 
 // helpers
@@ -60,8 +60,8 @@ app.set('views', 'src/views')
 // this middleware is for setting in locals all the flash messages
 app.use(flashMiddleware)
 
-app.use('/login', athorization)
-app.use('/', userRoutes)
+app.use('/user', verifyAuthIslogged, userRoutes)
+app.use('/login', verifyAuthIslogged, athorization)
 app.use('/admin', auth, adminRoutes)
 
 const port = 3000

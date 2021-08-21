@@ -20,17 +20,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/user">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Ingresar como Admin</a>
+                    <a class="nav-link" href="/login">Ingresar como Admin</a>
                 </li>
             </ul>
+             {{#if auth}}
+        <div class="float-end">
+            <form action="/login/logout" method="POST">
+            <button type="submit" class="btn btn-outline-danger">Logout</button>
+            </form>
+        </div>
+    {{/if}}
         </div>
     </div>
     </nav>
 
 <main class="container">
+   
     <div class="mt-4">
         {{#each errors}}
             <div class="alert alert-danger" role="alert">
