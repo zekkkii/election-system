@@ -11,33 +11,23 @@ const viewAll = async (req, res) => {
   data = data.map( result => result.dataValues)
   console.log(data)
   res.render('admin/puestos-electivos/listar-puesto-electivo', {data: data})
-  
+
 }
 
 const createView = async (req, res) => {
-  let partidos = await puestoElectivoModel.findAll()
-  partidos = partidos.map(result => result.dataValues)
-
-  let puestos = await puestoElectivoModel.findAll()
-  puestos = partidos.map(result => result.dataValues)
-
   res.render('admin/puestos-electivos/form-puesto-electivo')
 }
 
 const createPost = async (req, res) => {
  try{
 
-  let { Name, descripcion, StatusActive } = req.body
-  let img = 'no-image-icon.png'
+  let { PuestoElectivo, descripcion, StatusActive } = req.body
 
-// terminar
-  
-  if(!Name || !descripcion) {
+  if(!PuestoElectivo || !descripcion) {
     req.flash('error', 'Debes llenar todos los campos')
     return res.redirect('/admin/puestos_electivos/create')
   }
 
-  if(req.file) img =  req.file.filename
   if(!StatusActive) {
     StatusActive = false
   } else {
@@ -45,9 +35,8 @@ const createPost = async (req, res) => {
   }
 
   await puestoElectivoModel.create({
-    nombre: Name,
+    nombre: PuestoElectivo,
     descripcion: descripcion,
-    logoPartido: img,
     estado: StatusActive
   })
   res.redirect('/admin/puestos_electivos/view_all')
@@ -70,8 +59,8 @@ const updateViewForm = async (req, res) => {
     },
   })
   data = data.dataValues
-
-  res.render('admin/puestos-electivos/form-partidos',{ 
+  
+  res.render('admin/puestos-electivos/form-puesto-electivo',{ 
     editMode: true,
     data: data
   })
@@ -88,21 +77,18 @@ const updatePost = async (req, res) => {
   try {
     const id  = req.params.id
 
-  let { Name, descripcion, StatusActive } = req.body
+    let { PuestoElectivo, descripcion, StatusActive } = req.body
 
-  if(!Name) {
-    req.flash('error', 'Debes llenar todos los campos')
-    return res.redirect(`/admin/puestos_electivos/update/${id}`)
-  }
-
- 
-  if(!StatusActive) {
-    StatusActive = false
-  } else {
-    StatusActive = true
-  }
-
-
+    if(!PuestoElectivo || !descripcion) {
+      req.flash('error', 'Debes llenar todos los campos')
+      return res.redirect('/admin/puestos_electivos/create')
+    }
+  
+    if(!StatusActive) {
+      StatusActive = false
+    } else {
+      StatusActive = true
+    }
   let data = await puestoElectivoModel.findOne({
     where:{
       id: id
@@ -112,9 +98,8 @@ const updatePost = async (req, res) => {
   data = data.dataValues
   if(req.file) data.logoPartido = req.file.filename
   await puestoElectivoModel.update({
-    nombre: Name,
+    nombre: PuestoElectivo,
     descripcion: descripcion,
-    logoPartido:  data.logoPartido,
     estado: StatusActive
   },
   {

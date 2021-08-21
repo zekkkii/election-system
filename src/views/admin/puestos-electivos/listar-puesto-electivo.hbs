@@ -3,21 +3,48 @@
     <div class="col-lg-6 col-md-8 mx-auto">
       <h1 class="fw-light">Puestos Electivos</h1>
       <p>
-        <a href="#" class="btn btn-outline-primary my-2">Añadir nuevo puesto electoral</a>
+        <a href="/admin/puestos_electivos/create" class="btn btn-outline-primary my-2">Añadir nuevo puesto electoral</a>
       </p>
     </div>
   </div>
 </section>
 
+{{#if data}}
+<div class="d-flex">
 
-<div class="album py-5 bg-light">
-    <div class="container">
-        <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">Nombre de puesto:</h5>
-            <a href="#" class="btn btn-primary"> Editar </a>
-            <a href="#" class="btn btn-primary"> Eliminar </a>
-        </div>
-        </div>
-    </div>
+    {{#each data}}
+      <div class="album py-5 bg-light">
+          <div class="container">
+              <div class="card" style="width: 18rem;">
+                {{#if estado}}
+                    <div class="bg-success text-white text-center p-1">
+                      <span>Disponible/visible</span>
+                    </div>
+                    {{else}}
+                    <div class="bg-danger text-white text-center p-1">
+                      <span>Eliminado/Invisible</span>
+                    </div>
+                  {{/if}}
+              <div class="card-body">
+                  <h5 class="card-title">{{nombre}}</h5>
+                  <p>{{descripcion}}</p>
+                  <div class="d-flex">
+                    <a href="/admin/puestos_electivos/update/{{id}}" class="btn btn-primary mx-2"> Editar </a>
+                    {{#if estado}}
+                      <form action="/admin/puestos_electivos/delete/{{id}}" method="post">
+                        <button type="submit" id="delete" class="btn btn-danger">Eliminar</button>
+                      </form> 
+                      {{else}}       
+                    {{/if}}      
+                  </div>
+              </div>
+              </div>
+          </div>
+      </div>
+
+    {{/each}}
 </div>
+
+  {{else}}
+  <h3>No encontramos nada</h3>
+{{/if}}

@@ -4,29 +4,34 @@
 
 <div class="col-md-4"></div>
 
-<div class="col-md-4">
+<div class="col-md-4 p-4">
 
-    <form class="dropdown-menu p-4">
+    <form class="p-4" action="{{#if editMode}} /admin/puestos_electivos/update/{{data.id}}{{else}}/admin/puestos_electivos/create{{/if}}" method="POST">
 
-    <div class="card mt-5">
+        <div class="card mt-5 p-2">
 
-        <div class="card-header bg-success">
-            <h6 class="text-center text-white"> Introduzca la info del Puesto electivo: </h6>
+            <div class="card-header bg-success">
+                <h6 class="text-center text-white"> Introduzca la info del Puesto electivo: </h6>
+            </div>
+
+            <div class="mb-3">
+                <label for="puesto-electivo" class="form-label">Nombre del Cargo:</label>
+                <input type="text" class="form-control" id="puesto-electivo"{{#if editMode}} value="{{data.nombre}}"" {{/if}}  name="PuestoElectivo">
+            </div>
+
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripcion</label>
+                <textarea name="descripcion"   class="form-control"  id="descripcion">{{#if editMode}} {{data.descripcion}} {{/if}}</textarea>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" name="StatusActive" id="statusActive" {{#if editMode}} {{#if data.estado}} checked {{/if}} {{else}}checked {{/if}}>
+                <label class="form-check-label" for="statusActive" > Activo </label>
+            </div>
+
+            <button type="submit" class="btn btn-success float end">Guardar</button>
+            </form>
         </div>
-
-    <div class="mb-3">
-        <label for="puesto-electivo" class="form-label">Nombre del Cargo:</label>
-        <input type="text" class="form-control" id="puesto-electivo" name="PuestoElectivo">
-    </div>
-
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="statusActive">
-        <label class="form-check-label" for="statusActive" name="StatusActive"> Activo </label>
-    </div>
-
-    <button type="submit" class="btn btn-success float end">Guardar</button>
-    </form>
-
     </div>
 
 </div>
