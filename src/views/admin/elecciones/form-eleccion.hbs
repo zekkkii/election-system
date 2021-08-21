@@ -1,0 +1,48 @@
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-4"></div>
+
+        <div class="col-md-4">
+
+            <form method="POST" action="{{#if editMode}}""{{else}}""{{/if}}" class="p-4">
+
+                <div class="card mt-5">
+
+                    <div class="card-header bg-success">
+                        <h6 class="text-center text-white">Introduzca la info para la eleccion </h6>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+                            <label for="nombre-eleccion" class="form-label">Nombre de la Eleccion:</label>
+                            <input type="text" class="form-control" id="nombre-eleccion" name="Eleccion">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha-realizacion" class="form-label">Fecha de Realizacion:</label>
+                            <input type="text" class="form-control" id="fecha-realizacion" name="Fecha">
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="statusActive">
+                            <label class="form-check-label" for="statusActive" name="StatusActive"> Activo </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-success float end"> Guardar </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="col-md-4"></div>    
+
+    </div>
+
+</div>
