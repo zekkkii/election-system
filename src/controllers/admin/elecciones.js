@@ -1,78 +1,112 @@
-const elecciones = require('../../models/elecciones')
+const eleccionesModel = require('../../models/elecciones')
 
 
 
-const getAllData = async () => {
-  const request = await elecciones.findAll()
-  return request
-}
-
-const menu =(req, res) => {
-
-  // enviar menu CRUD
-  
-}
 
 const viewAll = async (req, res) => {
-  let data = await getAllData()
+  let data = await eleccionesModel.findAll()
 
-  data = data.map( result => result)
-  console.log(data)
-  //mandar data al front
+  data = data.map( result => result.dataValues)
+
+  const dataLength = data.length - 1
+  let ultimaEleccion = data[dataLength]
+
+  res.render('admin/elecciones/listar-elecciones', {data: data, ultimaEleccion: ultimaEleccion})
+
+}
+//terminar
+const estadisticas = async (req, res) => {
+  const id = req.params.id
+  let data = await eleccionesModel.findAll()
+
+  data = data.map( result => result.dataValues)
+
+  const dataLength = data.length - 1
+  let ultimaEleccion = data[dataLength]
+
+  res.render('admin/elecciones/estadisticas', {data: data, ultimaEleccion: ultimaEleccion})
+
+}
+//terminar
+const votoPost = async (req, res) => {
+  const { candidato, eleccion} = req.query
+
+ try{
+
+  await eleccionesModel.update({estado: false },{
+    where:{
+      id: id
+    }
+  })
+
+  req.flash('exito', 'Accion completada con exito!')
+  res.redirect('/admin/elecciones/view_all')
+
+ } catch(err) {
+   console.log(err)
+   req.flash('error', 'Algo sucedio, contacte con el administrador...')
+   res.redirect('/admin/elecciones/view_all')
+ }
   
 }
 
-const createView =(req, res) => {
-  // enviar create view 
+
+const createView = async (req, res) => {
+  res.render('admin/elecciones/form-eleccion')
 }
 
-const createPost =(req, res) => {
-  
+const createPost = async (req, res) => {
+ try{
+
+  let { Eleccion, Fecha } = req.body
+
+  if(!Eleccion || !Fecha) {
+    req.flash('error', 'Debes llenar todos los campos')
+    return res.redirect('/admin/elecciones/create')
+  }
+
+  await eleccionesModel.create({
+    nombre: Eleccion,
+    fechaRealizacion: Fecha,
+    estado: true
+  })
+  res.redirect('/admin/elecciones/view_all')
+ }
+ catch(err){
+   console.log(err)
+   req.flash('error', 'Algo sucedio, contacte con el administrador...')
+   res.redirect('/admin/elecciones/create')
+ }
+
 }
 
-const updateView = async () => {
-  let data = await getAllData()
 
-  data = data.map( result => result)
-  console.log(data)
-  //mandar data al front
-}
+const deletePost = async (req, res) => {
+  const id = req.params.id
 
-const updateViewForm =(req, res) => {
-   // enviar form view 
-}
+ try{
 
-const updatePost =(req, res) => {
-  
-}
+  await eleccionesModel.update({estado: false },{
+    where:{
+      id: id
+    }
+  })
 
-const deleteView = async() => {
-  let data = await getAllData()
+  req.flash('exito', 'Accion completada con exito!')
+  res.redirect('/admin/elecciones/view_all')
 
-  data = data.map( result => result)
-  console.log(data)
-  //mandar data al front
-}
-
-const deletePost =(req, res) => {
-  // const id = req.params.id
-
-  // elecciones.destroy({
-  //   where:{
-  //     id: id
-  //   }
-  // })
+ } catch(err) {
+   console.log(err)
+   req.flash('error', 'Algo sucedio, contacte con el administrador...')
+   res.redirect('/admin/elecciones/view_all')
+ }
   
 }
 
 module.exports =  { 
-  menu, 
   viewAll,
+  estadisticas,
   createView,
   createPost,
-  updateView,
-  updateViewForm,
-  updatePost,
-  deleteView,
   deletePost 
 }

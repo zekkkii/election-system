@@ -2,46 +2,39 @@
   <div class="row py-lg-5">
     <div class="col-lg-6 col-md-8 mx-auto">
       <h1 class="fw-light">Elecciones</h1>
-      <p>
-        <a href="#" class="btn btn-outline-primary my-2">Añadir nueva Eleccion</a>
-      </p>
+      {{#if ultimaEleccion.estado}}
+        {{else}}
+        <a href="/admin/elecciones/create" class="btn btn-outline-primary my-2">Añadir nueva Eleccion</a>
+      {{/if}}
+
     </div>
   </div>
 </section>
                 
-    {{#if }} 
-        <form method="POST" action="">
+<div class="container d-flex">
+  {{#each data}} 
+    <div class="card m-3" style="width: 18rem;">
+      {{#if estado}}
+                <div class="bg-success text-white text-center p-1">
+                  <span>activa</span>
+                </div>
+                {{else}}
+                <div class="bg-danger text-white text-center p-1">
+                  <span>Finalizada</span>
+                </div>
+              {{/if}}
+      <h5 class="card-title px-3 pt-3">{{nombre}}</h5>
+      <div class="card-body">
+        {{#if estado}}
+          <form method="POST" action="/admin/elecciones/delete/{{id}}">
             <input type="hidden" name="" value=""/>
             <button type="submit" class="btn btn-danger">Finalizar Eleccion</button>
-            </form>
-    {{/if}}
-
-<div class="album py-5 bg-light">
-    <div class="container">
-
-    
-    {{#each}} 
-    
-        <table style="width:100%">
-        <tr>
-        <th>  </th>
-        <th>  </th>
-        <th>  </th>
-        </tr>
-        <tr>
-        <td>  </td>
-        <td>  </td>
-        <td> </td>
-        </tr>
-        <tr>
-        <td> </td>
-        <td>  </td>
-        <td>  </td>
-        </tr>
-        </table>
-
-    {{/each}}
-
-        </div>
+          </form>
+          {{else}}
+          <a href="#  " class="btn btn-outline-primary my-2">Ver resultados</a>
+        {{/if}}
+      </div>
     </div>
+  {{/each}}
 </div>
+
