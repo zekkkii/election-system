@@ -16,8 +16,8 @@ const viewAll = async (req, res) => {
   data = data.map( result => result.dataValues)
   res.render('admin/candidatos/listar-candidatos', {
     data: data,
-    partido: data[0].partido.dataValues.nombre,
-    puesto: data[0].puestoElectivo.dataValues.nombre,
+    //partido: data[0].partido.dataValues.nombre,
+   // puesto: data[0].puestoElectivo.dataValues.nombre,
 
   })
   

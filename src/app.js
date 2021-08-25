@@ -21,6 +21,7 @@ const {
   elecciones,
   ciudadanos,
   usuarios,
+  estadisticas
 } = require('./models/modelsIndex')
 
 // middlewares

@@ -1,4 +1,5 @@
 const eleccionesModel = require('../../models/elecciones')
+const db = require('../../config/db')
 
 
 
@@ -14,16 +15,26 @@ const viewAll = async (req, res) => {
   res.render('admin/elecciones/listar-elecciones', {data: data, ultimaEleccion: ultimaEleccion})
 
 }
+
 //terminar
+
 const estadisticas = async (req, res) => {
   const id = req.params.id
-  let data = await eleccionesModel.findAll()
+  let data = await db.query(
+  " SELECT candidatos.nombre, " + 
+  "(select COUNT(*) FROM estadisticas where id = 1 ) as votos, " + 
+  " ((SELECT COUNT(id) FROM estadisticas WHERE id =1)* 100 / (SELECT id from estadisticas) ) as porcentaje " + 
+  " FROM `estadisticas` " +
+  " inner join candidatos on estadisticas.candidatoId = candidatos.id " +
+  " GROUP by candidatos.nombre "+
+  " ORDER BY porcentaje ASC; ")
 
+  console.log(data)
   data = data.map( result => result.dataValues)
 
   const dataLength = data.length - 1
   let ultimaEleccion = data[dataLength]
-
+  
   res.render('admin/elecciones/estadisticas', {data: data, ultimaEleccion: ultimaEleccion})
 
 }
@@ -33,19 +44,18 @@ const votoPost = async (req, res) => {
 
  try{
 
-  await eleccionesModel.update({estado: false },{
-    where:{
-      id: id
-    }
+  await eleccionesModel.create({
+    candidatoId: candidato,
+    eleccioneId: eleccion
   })
 
-  req.flash('exito', 'Accion completada con exito!')
-  res.redirect('/admin/elecciones/view_all')
+  req.flash('exito', 'Voto completado con exito!')
+  // res.redirect('/admin/elecciones/view_all')
 
  } catch(err) {
    console.log(err)
    req.flash('error', 'Algo sucedio, contacte con el administrador...')
-   res.redirect('/admin/elecciones/view_all')
+//   res.redirect('/admin/elecciones/view_all')
  }
   
 }
